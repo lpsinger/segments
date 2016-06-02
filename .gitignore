@@ -2,3 +2,4 @@
 /build/
 /.eggs/
 /segments.egg-info/
+/dist/
