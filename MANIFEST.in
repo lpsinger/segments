@@ -1,0 +1,2 @@
+include versioneer.py
+include segments/_version.py

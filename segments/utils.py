@@ -33,16 +33,11 @@ objects.
 import itertools
 import re
 
-
-from segments import git_version
 from glue import iterutils
 from glue import lal
-from segments import segments
-
+from . import segments
 
 __author__ = "Kipp Cannon <kipp.cannon@ligo.org>"
-__version__ = "git id %s" % git_version.id
-__date__ = git_version.date
 
 
 #
