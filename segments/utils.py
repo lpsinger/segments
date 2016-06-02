@@ -33,8 +33,6 @@ objects.
 import itertools
 import re
 
-from glue import iterutils
-from glue import lal
 from . import segments
 
 __author__ = "Kipp Cannon <kipp.cannon@ligo.org>"
@@ -79,31 +77,6 @@ def fromfilenames(filenames, coltype = int):
 		d = coltype(d)
 		l.append(segments.segment(s, s + d))
 	return l
-
-
-#
-# LAL cache files
-#
-
-
-def fromlalcache(cachefile, coltype = int):
-	"""
-	Construct a segmentlist representing the times spanned by the files
-	identified in the LAL cache contained in the file object file.  The
-	segmentlist will be created with segments whose boundaries are of
-	type coltype, which should raise ValueError if it cannot convert
-	its string argument.
-
-	Example:
-
-	>>> from glue.lal import LIGOTimeGPS
-	>>> cache_seglists = fromlalcache(open(filename), coltype = LIGOTimeGPS).coalesce()
-
-	See also:
-
-	glue.lal.CacheEntry
-	"""
-	return segments.segmentlist(lal.CacheEntry(l, coltype = coltype).segment for l in cachefile)
 
 
 #
@@ -182,38 +155,6 @@ def tosegwizard(file, seglist, header = True, coltype = int):
 		print >>file, "# seg\tstart    \tstop     \tduration"
 	for n, seg in enumerate(seglist):
 		print >>file, "%d\t%s\t%s\t%s" % (n, str(coltype(seg[0])), str(coltype(seg[1])), str(coltype(abs(seg))))
-
-
-#
-# TAMA-formated segment list text files
-#
-
-
-def fromtama(file, coltype = lal.LIGOTimeGPS):
-	"""
-	Read a segmentlist from the file object file containing TAMA
-	locked-segments data.  Parsing stops on the first line that cannot
-	be parsed (which is consumed).  The segmentlist will be created
-	with segments whose boundaries are of type coltype, which should
-	raise ValueError if it cannot convert its string argument.
-
-	NOTE:  TAMA locked-segments files contain non-integer start and end
-	times, so the default column type is set to LIGOTimeGPS.
-
-	NOTE:  the output is a segmentlist as described by the file;  if
-	the segments in the input file are not coalesced or out of order,
-	then thusly shall be the output of this function.  It is
-	recommended that this function's output be coalesced before use.
-	"""
-	segmentpat = re.compile(r"\A\s*\S+\s+\S+\s+\S+\s+([\d.+-eE]+)\s+([\d.+-eE]+)")
-	l = segments.segmentlist()
-	for line in file:
-		try:
-			[tokens] = segmentpat.findall(line)
-			l.append(segments.segment(map(coltype, tokens[0:2])))
-		except ValueError:
-			break
-	return l
 
 
 #
