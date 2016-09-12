@@ -1400,7 +1400,11 @@ PyTypeObject segments_SegmentList_Type = {
 "[segment(-10, -5), segment(5, 10), segment(20, 30)]\n" \
 ">>> print ~x\n" \
 "[segment(-infinity, -10), segment(-5, 5), segment(10, 20), segment(30, infinity)]",
+	#if PY_MAJOR_VERSION < 3
 	.tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_CHECKTYPES | Py_TPFLAGS_BASETYPE,
+	#else
+	.tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,
+	#endif
 	.tp_methods = methods,
 	.tp_name = MODULE_NAME ".segmentlist",
 };

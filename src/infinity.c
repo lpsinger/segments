@@ -236,7 +236,11 @@ static PyObject *__sub__(PyObject *self, PyObject *other)
 static PyNumberMethods as_number = {
 	.nb_add = __add__,
 	.nb_negative = __neg__,
+	#if PY_MAJOR_VERSION < 3
 	.nb_nonzero = __nonzero__,
+	#else
+	.nb_bool = __nonzero__,
+	#endif
 	.nb_positive = __pos__,
 	.nb_subtract = __sub__,
 };
@@ -284,7 +288,11 @@ PyTypeObject segments_Infinity_Type = {
 "True\n" \
 ">>> segment(-10, 10) - segment(-x, 0)\n" \
 "segment(0, 10)",
+	#if PY_MAJOR_VERSION < 3
 	.tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_CHECKTYPES,
+	#else
+	.tp_flags = Py_TPFLAGS_DEFAULT,
+	#endif
 	.tp_methods = methods,
 	.tp_name = MODULE_NAME ".infinity",
 	.tp_new = __new__,
