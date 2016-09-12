@@ -33,6 +33,10 @@
 #include <segments.h>
 
 
+#if PY_MAJOR_VERSION < 3
+	#define PyInt_FromLong PyLong_FromLong
+#endif
+
 /*
  * ============================================================================
  *
@@ -225,10 +229,10 @@ static PyObject *disjoint(PyObject *self, PyObject *other)
 	oa = PyTuple_GET_ITEM(other, 0);
 	ob = PyTuple_GET_ITEM(other, 1);
 	if(PyObject_Compare(sa, ob) > 0)
-		return PyInt_FromLong(1);
+		return PyLong_FromLong(1);
 	if(PyObject_Compare(sb, oa) < 0)
-		return PyInt_FromLong(-1);
-	return PyInt_FromLong(0);
+		return PyLong_FromLong(-1);
+	return PyLong_FromLong(0);
 }
 
 
