@@ -1,0 +1,24 @@
+language: python
+
+matrix:
+  include:
+    - python: 2.6
+    - python: 2.7
+    - python: 3.5
+    - python: nightly
+  allow_failures:
+    - python: 3.5
+    - python: nightly
+
+before_install:
+  - pip install --quiet --upgrade pip
+
+install:
+  - pip install .
+
+script:
+  - cd test
+  - make check
+
+cache:
+  pip: true
