@@ -2,8 +2,8 @@ import random
 import StringIO
 import sys
 import unittest
+from itertools import combinations
 
-from glue import iterutils
 from segments import segments
 from segments import utils
 import verifyutils
@@ -62,7 +62,7 @@ class test_vote(unittest.TestCase):
 			for j in range(random.randint(0, 10)):
 				seglists.append(verifyutils.random_coalesced_list(algebra_listlength))
 			n = random.randint(0, len(seglists))
-			correct = reduce(lambda x, y: x | y, (votes and reduce(lambda a, b: a & b, votes) or segments.segmentlist() for votes in iterutils.choices(seglists, n)), segments.segmentlist())
+			correct = reduce(lambda x, y: x | y, (votes and reduce(lambda a, b: a & b, votes) or segments.segmentlist() for votes in combinations(seglists, n)), segments.segmentlist())
 			self.assertEqual(correct, utils.vote(seglists, n))
 
 
