@@ -1,0 +1,4 @@
+include versioneer.py
+include src/*.c
+include src/*.h
+include segments/_version.py
