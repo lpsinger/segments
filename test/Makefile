@@ -1,3 +1,5 @@
+PYTHON ?= python
+
 check : \
 	glue_ligolw_ilwd_verify \
 	iterutils_verify \
@@ -28,31 +30,31 @@ endef
 SERVEFILESPORT := 16543
 
 define servefilesstart
-	{ python -c "from six.moves.socketserver import TCPServer ; from six.moves.SimpleHTTPServer import SimpleHTTPRequestHandler ; TCPServer(('127.0.0.1', $(SERVEFILESPORT)), SimpleHTTPRequestHandler).serve_forever()" & sleep 1 ; }
+	{ $(PYTHON) -c "from six.moves.socketserver import TCPServer ; from six.moves.SimpleHTTPServer import SimpleHTTPRequestHandler ; TCPServer(('127.0.0.1', $(SERVEFILESPORT)), SimpleHTTPRequestHandler).serve_forever()" & sleep 1 ; }
 endef
 define servefilesstop
-	{ killall python ; sleep 1 ; true ; }
+	{ killall $(PYTHON) ; sleep 1 ; true ; }
 endef
 
 glue_ligolw_ilwd_verify :
 	@echo "=== start glue_ligolw_ilwd_verify ===>"
-	python glue_ligolw_ilwd_verify.py && $(printpassfail)
+	$(PYTHON) glue_ligolw_ilwd_verify.py && $(printpassfail)
 	@echo "<=== end glue_ligolw_ilwd_verify ==="
 
 iterutils_verify :
 	@echo "=== start iterutils_verify ===>"
-	python iterutils_verify.py && $(printpassfail)
+	$(PYTHON) iterutils_verify.py && $(printpassfail)
 	@echo "<=== end iterutils_verify ==="
 
 lal_verify :
 	@echo "=== start lal_verify ===>"
-	python lal_verify.py && $(printpassfail)
+	$(PYTHON) lal_verify.py && $(printpassfail)
 	@echo "<=== end lal_verify ==="
 
 ligolw_test01 :
 	@echo "=== start ligolw_test01 ===>"
 	# test reading array data from a file
-	python ligo_lw_test_01.py && $(printpassfail)
+	$(PYTHON) ligo_lw_test_01.py && $(printpassfail)
 	@echo "<=== end ligolw_test01 ==="
 
 ligolw_test03a :
@@ -94,52 +96,52 @@ ligolw_sqlite_test :
 
 offsetvector_verify :
 	@echo "=== start offsetvector_verify ===>"
-	python offsetvector_verify.py && $(printpassfail)
+	$(PYTHON) offsetvector_verify.py && $(printpassfail)
 	@echo "<=== end offsetvector_verify ==="
 
 utils_verify :
 	@echo "=== start utils_verify ===>"
-	python utils_verify.py && $(printpassfail)
+	$(PYTHON) utils_verify.py && $(printpassfail)
 	@echo "<=== end utils_verify ==="
 
 segments_verify :
 	@echo "=== start segments_verify ===>"
-	python segments_verify.py && $(printpassfail)
+	$(PYTHON) segments_verify.py && $(printpassfail)
 	@echo "<=== end segments_verify ==="
 
 test_ligolw_array :
 	@echo "=== start test_ligolw_array ===>"
-	./test_ligolw_array.py && $(printpassfail)
+	$(PYTHON) test_ligolw_array.py && $(printpassfail)
 	@echo "<=== end test_ligolw_array ==="
 
 test_ligolw_ligolw :
 	@echo "=== start test_ligolw_ligolw ===>"
-	./test_ligolw_ligolw.py && $(printpassfail)
+	$(PYTHON) test_ligolw_ligolw.py && $(printpassfail)
 	@echo "<=== end test_ligolw_ligolw ==="
 
 test_ligolw_lsctables :
 	@echo "=== start test_ligolw_lsctables ===>"
-	./test_ligolw_lsctables.py && $(printpassfail)
+	$(PYTHON) test_ligolw_lsctables.py && $(printpassfail)
 	@echo "<=== end test_ligolw_lsctables ==="
 
 test_ligolw_table :
 	@echo "=== start test_ligolw_table ===>"
-	./test_ligolw_table.py && $(printpassfail)
+	$(PYTHON) test_ligolw_table.py && $(printpassfail)
 	@echo "<=== end test_ligolw_table ==="
 
 test_ligolw_tokenizer :
 	@echo "=== start test_ligolw_tokenizer ===>"
-	./test_ligolw_tokenizer.py && $(printpassfail)
+	$(PYTHON) test_ligolw_tokenizer.py && $(printpassfail)
 	@echo "<=== end test_ligolw_tokenizer ==="
 
 test_ligolw_utils :
 	@echo "=== start test_ligolw_utils ===>"
-	./test_ligolw_utils.py && $(printpassfail)
+	$(PYTHON) test_ligolw_utils.py && $(printpassfail)
 	@echo "<=== end test_ligolw_utils ==="
 
 test_ligolw_utils_segments :
 	@echo "=== start test_ligolw_utils_segments ===>"
-	./test_ligolw_utils_segments.py && $(printpassfail)
+	$(PYTHON) test_ligolw_utils_segments.py && $(printpassfail)
 	@echo "<=== end test_ligolw_utils_segments ==="
 
 clean :
