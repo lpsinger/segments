@@ -1,5 +1,4 @@
 import random
-import StringIO
 import sys
 import unittest
 
@@ -9,6 +8,7 @@ from segments import utils
 import verifyutils
 from six.moves import range
 from functools import reduce
+from six.moves import StringIO
 verifyutils.segments = segments
 
 
@@ -31,7 +31,7 @@ class test_segwizard(unittest.TestCase):
 		"""
 		Test segwizard parsing.
 		"""
-		data = StringIO.StringIO("""# This is a comment
+		data = StringIO("""# This is a comment
  # This is another comment
 	# Again a comment
 1  10 100 90
@@ -47,7 +47,7 @@ class test_segwizard(unittest.TestCase):
 		Check that the segwizard writing routine's output is parsed
 		correctly.
 		"""
-		data = StringIO.StringIO()
+		data = StringIO()
 		correct = segments.segmentlist([segments.segment(10, 100), segments.segment(110, 120), segments.segment(125, 130), segments.segment(0, 200)])
 		utils.tosegwizard(data, correct)
 		data.seek(0)

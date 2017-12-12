@@ -67,6 +67,8 @@ def set2():
 
 
 class test_infinity(unittest.TestCase):
+	@unittest.skipIf(sys.version_info.major >= 3,
+		'Python 3 does not have cmp')
 	def test__cmp__(self):
 		a = segments.infinity()
 		self.assertEqual( 0, cmp(-a, -a))

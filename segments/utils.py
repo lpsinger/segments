@@ -511,9 +511,9 @@ def vote(seglists, n):
 
 	def pop_min(l):
 		# remove and return the smallest value from a list
-		val = min(l)
+		val = min(l, key=lambda _: _[:2])
 		for i in range(len(l) - 1, -1, -1):
-			if l[i] is val:
+			if l[i][:2] == val[:2]:
 				return l.pop(i)
 		assert False	# cannot get here
 
@@ -531,7 +531,7 @@ def vote(seglists, n):
 			queue.append((seg[0], +1, None))
 		if not queue:
 			return
-		queue.sort(reverse = True)
+		queue.sort(reverse = True, key = lambda _: _[:2])
 		bound = queue[-1][0]
 		votes = 0
 		while queue:

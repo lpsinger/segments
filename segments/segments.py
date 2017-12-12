@@ -920,8 +920,7 @@ class segmentlistdict(dict):
 	[segment(6.0, 15)]
 	>>> c = x.extract_common(["H1", "H2"])
 	>>> c.offsets.clear()
-	>>> c
-	{'H2': [segment(6.0, 15)], 'H1': [segment(0.0, 9.0)]}
+	>>> assert c == {'H2': [segment(6.0, 15)], 'H1': [segment(0.0, 9.0)]}
 	"""
 	def __new__(cls, *args):
 		self = dict.__new__(cls, *args)
@@ -1006,8 +1005,7 @@ class segmentlistdict(dict):
 		>>> x = segmentlistdict()
 		>>> x["H1"] = segmentlist([segment(0, 10)])
 		>>> x["H2"] = segmentlist([segment(5, 15)])
-		>>> x.map(lambda l: 12 in l)
-		{'H2': True, 'H1': False}
+		>>> assert x.map(lambda l: 12 in l) == {'H2': True, 'H1': False}
 		"""
 		return dict((key, func(value)) for key, value in six.iteritems(self))
 
@@ -1045,8 +1043,7 @@ class segmentlistdict(dict):
 		>>> x = segmentlistdict()
 		>>> x["H1"] = segmentlist([segment(0, 10)])
 		>>> x["H2"] = segmentlist([segment(5, 15)])
-		>>> x.find(7)
-		{'H2': 0, 'H1': 0}
+		>>> assert x.find(7) == {'H2': 0, 'H1': 0}
 
 		NOTE:  all segmentlists must contain the item or KeyError
 		is raised.
