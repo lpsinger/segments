@@ -35,10 +35,7 @@ import time
 import optparse
 import filecmp
 import shutil
-try:
-  import subprocess
-except ImportError:
-  sys.exit("Python-2.4, or higher is required")
+import subprocess
 
 #
 # class definitions
@@ -137,16 +134,16 @@ def in_git_repository():
   of success conditions, but I cannot find any documentation of them. 128 was
   determined empirically. I sure hope that it's portable.
   """
-  ret_code, git_path = call_out(('which', 'git'))
-  return (ret_code != 1) and not git_path.startswith('no') \
-      and (call_out((git_path, 'status'))[0] != 128)
+  try:
+    return call_out(('git', 'status'))[0] != 128
+  except OSError:
+    # git is not installed
+    return False
 
 # generate sed command file containing version info
 def generate_git_version_info():
   # info object
   info = git_info()
-
-  git_path = check_call_out(('which', 'git'))
 
   # determine basic info about the commit
   # %H -- full git hash id
@@ -155,7 +152,7 @@ def generate_git_version_info():
   # %cn, %ce -- committer name, email
   git_id, git_udate, git_author_name, git_author_email, \
     git_committer_name, git_committer_email = \
-    check_call_out((git_path, 'log', '-1',
+    check_call_out(('git', 'log', '-1',
     '--pretty=format:%H,%ct,%an,%ae,%cn,%ce')).split(",")
 
   git_date = time.strftime('%Y-%m-%d %H:%M:%S +0000',
@@ -164,7 +161,7 @@ def generate_git_version_info():
   git_committer = '%s <%s>' % (git_committer_name, git_committer_email)
 
   # determine branch
-  branch_match = check_call_out((git_path, 'rev-parse',
+  branch_match = check_call_out(('git', 'rev-parse',
     '--symbolic-full-name', 'HEAD'))
   if branch_match == "HEAD":
     git_branch = None
@@ -172,21 +169,22 @@ def generate_git_version_info():
     git_branch = os.path.basename(branch_match)
 
   # determine tag
-  status, git_tag = call_out((git_path, 'describe', '--exact-match',
-    '--tags', git_id))
-  if status != 0:
+  try:
+    git_tag = check_call_out(('git', 'describe', '--exact-match',
+      '--tags', git_id))
+  except GitInvocationError:
     git_tag = None
 
   # refresh index
-  check_call_out((git_path, 'update-index', '-q', '--refresh'))
+  check_call_out(('git', 'update-index', '-q', '--refresh'))
 
   # check working copy for changes
-  status_output = subprocess.call((git_path, 'diff-files', '--quiet'))
+  status_output = subprocess.call(('git', 'diff-files', '--quiet'))
   if status_output != 0:
     git_status = 'UNCLEAN: Modified working tree'
   else:
     # check index for changes
-    status_output = subprocess.call((git_path, 'diff-index', '--cached',
+    status_output = subprocess.call(('git', 'diff-index', '--cached',
       '--quiet', 'HEAD'))
     if status_output != 0:
       git_status = 'UNCLEAN: Modified index'
