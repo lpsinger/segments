@@ -686,16 +686,22 @@ static PyObject *__iand__(PyObject *self, PyObject *other)
 static PyObject *__and__(PyObject *self, PyObject *other)
 {
 	PyObject *new = NULL;
+	PyTypeObject *ob_type;
+
+	if (PyObject_TypeCheck(self, &segments_SegmentList_Type))
+		ob_type = self->ob_type;
+	else
+		ob_type = other->ob_type;
 
 	/* error checking on size functions not required */
 	if(PySequence_Size(self) >= PySequence_Size(other)) {
-		self = (PyObject *) segments_SegmentList_New(self->ob_type, self);
+		self = (PyObject *) segments_SegmentList_New(ob_type, self);
 		if(self) {
 			new = PyNumber_InPlaceAnd(self, other);
 			Py_DECREF(self);
 		}
 	} else {
-		other = (PyObject *) segments_SegmentList_New(self->ob_type, other);
+		other = (PyObject *) segments_SegmentList_New(ob_type, other);
 		if(other) {
 			new = PyNumber_InPlaceAnd(other, self);
 			Py_DECREF(other);
@@ -851,16 +857,22 @@ static PyObject *__ior__(PyObject *self, PyObject *other)
 static PyObject *__or__(PyObject *self, PyObject *other)
 {
 	PyObject *new = NULL;
+	PyTypeObject *ob_type;
+
+	if (PyObject_TypeCheck(self, &segments_SegmentList_Type))
+		ob_type = self->ob_type;
+	else
+		ob_type = other->ob_type;
 
 	/* error checking on size functions not required */
 	if(PySequence_Size(self) >= PySequence_Size(other)) {
-		self = (PyObject *) segments_SegmentList_New(self->ob_type, self);
+		self = (PyObject *) segments_SegmentList_New(ob_type, self);
 		if(self) {
 			new = PyNumber_InPlaceOr(self, other);
 			Py_DECREF(self);
 		}
 	} else {
-		other = (PyObject *) segments_SegmentList_New(self->ob_type, other);
+		other = (PyObject *) segments_SegmentList_New(ob_type, other);
 		if(other) {
 			new = PyNumber_InPlaceOr(other, self);
 			Py_DECREF(other);
@@ -1078,7 +1090,14 @@ static PyObject *__isub__(PyObject *self, PyObject *other)
 static PyObject *__sub__(PyObject *self, PyObject *other)
 {
 	PyObject *new = NULL;
-	self = (PyObject *) segments_SegmentList_New(self->ob_type, self);
+	PyTypeObject *ob_type;
+
+	if (PyObject_TypeCheck(self, &segments_SegmentList_Type))
+		ob_type = self->ob_type;
+	else
+		ob_type = other->ob_type;
+
+	self = (PyObject *) segments_SegmentList_New(ob_type, self);
 	if(self) {
 		new = PyNumber_InPlaceSubtract(self, other);
 		Py_DECREF(self);
