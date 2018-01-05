@@ -198,6 +198,7 @@ static PyObject *intersects(PyObject *self, PyObject *other)
 
 static int __contains__(PyObject *self, PyObject *other)
 {
+	int result;
 	PyObject *sa = PyTuple_GET_ITEM(self, 0);
 	PyObject *sb = PyTuple_GET_ITEM(self, 1);
 	if(segments_Segment_Check(other)) {
@@ -208,7 +209,7 @@ static int __contains__(PyObject *self, PyObject *other)
 		PyObject *oa = PySequence_GetItem(other, 0);
 		PyObject *ob = PySequence_GetItem(other, 1);
 		if(oa && ob && PySequence_Length(other) == 2) {
-			int result = PyObject_RichCompareBool(sa, oa, Py_LE) && PyObject_RichCompareBool(sb, ob, Py_GE);
+			result = PyObject_RichCompareBool(sa, oa, Py_LE) && PyObject_RichCompareBool(sb, ob, Py_GE);
 			Py_DECREF(oa);
 			Py_DECREF(ob);
 			return result;
@@ -216,7 +217,11 @@ static int __contains__(PyObject *self, PyObject *other)
 		Py_XDECREF(oa);
 		Py_XDECREF(ob);
 		PyErr_Clear();
-		return PyObject_RichCompareBool(sa, other, Py_LE) && PyObject_RichCompareBool(other, sb, Py_LT);
+
+		result = PyObject_RichCompareBool(sa, other, Py_LE);
+		if (result <= 0)
+			return result;
+		return PyObject_RichCompareBool(other, sb, Py_LT);
 	}
 }
 

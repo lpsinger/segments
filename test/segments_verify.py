@@ -186,10 +186,29 @@ class test_segment(unittest.TestCase):
 		self.assertEqual(False, [-1, 2] in segments.segment(0, 4))
 		self.assertEqual(False, [-1, 6] in segments.segment(0, 4))
 		self.assertEqual(True, 2 in segments.segment(0, 4))
-		self.assertEqual(False, [] in segments.segment(0, 4))
-		self.assertEqual(False, [0] in segments.segment(0, 4))
-		self.assertEqual(False, [2] in segments.segment(0, 4))
-		self.assertEqual(False, [1, 2, 3] in segments.segment(0, 4))
+
+		# Paraphrasing the documentation for glue.segment.__contains__
+		# in segments/segments.py: if a is a segment or a sequence of length two,
+		# then `a in b` tests if `b[0] <= a[0] <= a[1] <= b[1]`. Otherwise,
+		# `a in b` tests if `b[0] <= a <= b[1]`. The following four tests
+		# happen to work and return False in Python 2, but they raise
+		# a TypeError in Python 3 because Python does not permit comparisons
+		# of numbers with sequences. The exception message is
+		# "'<' not supported between instances of 'list' and 'int'".
+		if sys.version_info.major <= 2:
+			self.assertEqual(False, [] in segments.segment(0, 4))
+			self.assertEqual(False, [0] in segments.segment(0, 4))
+			self.assertEqual(False, [2] in segments.segment(0, 4))
+			self.assertEqual(False, [1, 2, 3] in segments.segment(0, 4))
+		else:
+			with self.assertRaises(TypeError):
+				self.assertEqual(False, [] in segments.segment(0, 4))
+			with self.assertRaises(TypeError):
+				self.assertEqual(False, [0] in segments.segment(0, 4))
+			with self.assertRaises(TypeError):
+				self.assertEqual(False, [2] in segments.segment(0, 4))
+			with self.assertRaises(TypeError):
+				self.assertEqual(False, [1, 2, 3] in segments.segment(0, 4))
 
 	def testdisjoint(self):
 		results = (
