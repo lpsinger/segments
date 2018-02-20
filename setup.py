@@ -35,6 +35,10 @@ scripts = glob.glob(os.path.join('bin', '*'))
 # declare dependencies
 setup_requires = ['setuptools']
 
+# add test dependencies
+if set(('pytest', 'test', 'prt')).intersection(sys.argv):
+    setup_requires.append('pytest_runner')
+
 # define extension
 csegments = Extension(
     'segments.__segments',
