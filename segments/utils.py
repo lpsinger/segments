@@ -32,12 +32,9 @@ objects.
 
 import re
 
-
-from glue.lal import CacheEntry
-from .lal import LIGOTimeGPS
-from segments import segments
 from six.moves import range
 
+from . import segments
 
 __author__ = "Kipp Cannon <kipp.cannon@ligo.org>"
 
@@ -96,15 +93,11 @@ def fromlalcache(cachefile, coltype = int):
 	type coltype, which should raise ValueError if it cannot convert
 	its string argument.
 
-	Example:
-
-	>>> from lal import LIGOTimeGPS
-	>>> cache_seglists = fromlalcache(open(filename), coltype = LIGOTimeGPS).coalesce()
-
 	See also:
 
-	glue.lal.CacheEntry
+	lal.utils.CacheEntry
 	"""
+	from lal.utils import CacheEntry
 	return segments.segmentlist(CacheEntry(l, coltype = coltype).segment for l in cachefile)
 
 
@@ -191,7 +184,7 @@ def tosegwizard(file, seglist, header = True, coltype = int):
 #
 
 
-def fromtama(file, coltype = LIGOTimeGPS):
+def fromtama(file, coltype = float):
 	"""
 	Read a segmentlist from the file object file containing TAMA
 	locked-segments data.  Parsing stops on the first line that cannot
@@ -200,7 +193,8 @@ def fromtama(file, coltype = LIGOTimeGPS):
 	raise ValueError if it cannot convert its string argument.
 
 	NOTE:  TAMA locked-segments files contain non-integer start and end
-	times, so the default column type is set to LIGOTimeGPS.
+	times, so the default column type is set to float. For absolute
+	precision, you may want to use LIGOTimeGPS.
 
 	NOTE:  the output is a segmentlist as described by the file;  if
 	the segments in the input file are not coalesced or out of order,
