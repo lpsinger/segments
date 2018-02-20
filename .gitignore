@@ -3,3 +3,5 @@
 /.eggs/
 /segments.egg-info/
 /dist/
+/.cache/
+/segments/__segments.so
