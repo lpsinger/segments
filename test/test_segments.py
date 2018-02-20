@@ -39,7 +39,6 @@ def segments_implementation(request):
     segments.PosInfinity = mod.PosInfinity
     segments.NegInfinity = mod.NegInfinity
     verifyutils.segments = mod
-    yield
 
 
 def set1():
