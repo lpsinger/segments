@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # Copyright (C) 2016 Duncan Macleod
 #
 # This program is free software; you can redistribute it and/or modify it
