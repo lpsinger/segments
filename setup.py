@@ -34,6 +34,7 @@ scripts = glob.glob(os.path.join('bin', '*'))
 
 # declare dependencies
 setup_requires = ['setuptools']
+install_requires = ['six']
 
 # add test dependencies
 if set(('pytest', 'test', 'prt')).intersection(sys.argv):
@@ -56,6 +57,7 @@ setup(name='segments',
       cmdclass=cmdclass,
       packages=packages,
       setup_requires=setup_requires,
+      install_requires=install_requires,
       ext_modules=[csegments],
       classifiers=[
           'Programming Language :: Python :: 2 :: Only',

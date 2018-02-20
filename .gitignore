@@ -5,3 +5,4 @@
 /dist/
 /.cache/
 /segments/__segments.so
+*.swp
