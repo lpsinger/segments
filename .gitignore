@@ -6,6 +6,6 @@
 # ignored build directories
 /build/
 /.eggs/
-/segments.egg-info/
+/*.egg-info/
 /dist/
 /.cache/

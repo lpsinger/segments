@@ -1,4 +1,4 @@
-Source: segments
+Source: python-segments
 Maintainer: Duncan Macleod <duncan.macleod@ligo.org>
 Section: python
 Priority: optional

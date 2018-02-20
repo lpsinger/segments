@@ -1,4 +1,4 @@
-segments (0-1) unstable; urgency=low
+python-segments (0-1) unstable; urgency=low
 
   * initial commit of debian packaging scripts, not a true release
 

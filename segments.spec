@@ -1,13 +1,14 @@
 %global srcname segments
+%global distname python-%{srcname}
 
-Name:           python-%{srcname}
+Name:           %{distname}
 Version:        0
 Release:        1%{?dist}
 Summary:        Blah
 
 License:        GPLv3
 URL:            https://github.com/duncanmmacleod/segments/
-Source0:        https://files.pythonhosted.org/packages/source/s/%{srcname}/%{srcname}-%{version}.tar.gz
+Source0:        https://files.pythonhosted.org/packages/source/p/%{distname}/%{distname}-%{version}.tar.gz
 
 BuildArch:      noarch
 BuildRequires:  python3-rpm-macros
@@ -42,7 +43,7 @@ Requires:       python%{python3_pkgversion}-six
 Blah
 
 %prep
-%autosetup -n %{srcname}-%{version}
+%autosetup -n %{distname}-%{version}
 
 %build
 %py2_build

@@ -48,7 +48,7 @@ csegments = Extension(
 )
 
 # run setup
-setup(name='segments',
+setup(name='python-segments',
       provides=['segments'],
       version=__version__,
       description='segments',
