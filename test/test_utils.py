@@ -1,8 +1,8 @@
+import itertools
 import random
 import sys
 import unittest
 
-from glue import iterutils
 from segments import segments
 from segments import utils
 from six.moves import range
@@ -78,4 +78,5 @@ class TestVote(object):
                 lambda x, y: x | y, (
                     votes and reduce(lambda a, b: a & b, votes) or
                     segments.segmentlist() for votes in
-                    iterutils.choices(seglists, n)), segments.segmentlist())
+                    itertools.combinations(seglists, n)),
+                segments.segmentlist())
