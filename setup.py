@@ -17,8 +17,6 @@
 """setup for segments
 """
 
-import glob
-import os.path
 import sys
 
 from setuptools import (setup, find_packages, Extension)
@@ -29,7 +27,6 @@ __version__ = versioneer.get_version()
 # collect package data
 cmdclass = versioneer.get_cmdclass()
 packages = find_packages()
-scripts = glob.glob(os.path.join('bin', '*'))
 
 # declare dependencies
 setup_requires = ['setuptools']
