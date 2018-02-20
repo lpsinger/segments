@@ -1,7 +1,7 @@
 %global srcname segments
 
 Name:           python-%{srcname}
-Version:        0+untagged.360.g76de224.dirty
+Version:        0
 Release:        1%{?dist}
 Summary:        Blah
 
