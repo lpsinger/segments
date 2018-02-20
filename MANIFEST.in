@@ -2,3 +2,7 @@ include versioneer.py
 include src/*.c
 include src/*.h
 include segments/_version.py
+include segments.spec
+include debian/*
+include debian/source/*
+include test/*.py
