@@ -1,8 +1,11 @@
+# ignored filetypes
 *.pyc
+*.so
+*.swp
+
+# ignored build directories
 /build/
 /.eggs/
 /segments.egg-info/
 /dist/
 /.cache/
-/segments/__segments.so
-*.swp
